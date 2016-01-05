@@ -1,0 +1,53 @@
+@authors Justin Cole, Wesley Hughes, Jeremy Wetherford, 
+
+
+User space files: twoButtons.c, userToMorse.c
+Kernel space files: kernelFromMorse.c, kerneltoMorse.c (note: there are two separate modules)
+
+Setting up the Galileo Board for use:
+	1.) For the button that will act as the receiver for dits and dahs, connect it to port 5 (which maps to 17).
+	2.) For the button that will act as the parser between characters and to signal the end of the translation,
+	    connect it to port 3 (which maps to 18).
+
+	Compiling Kernel files: Navigate to the folder containing the kernel file to be compiled and
+		      type "make" without the quotes. This will result in .ko files being generated.
+		Insert the modules: type "insmod <nameOfFile.ko>.
+	Compiling User space files: Compile them by using gcc from the terminal.
+
+	Interacting with the modules:
+		For kernelToMorse (after the module has been inserted):
+			1.) Create a file (if one does not exist) containing the ASCII text you wish
+			    to convert into Morse.
+			2.) Type "cat insert_your_filename_here.txt > /proc/kernelToMorse" without quotes.
+                            This will immediately start the translation of the ASCII text within the file
+			    into LED flashes on the Galileo board representing the translated Morse message.
+		For kernelFromMorse (after the module has been inserted):
+			1.) cat in any text file into /proc/kernelFromMorse to start the interaction with the
+			    module. At this point, the module is awaiting input from the buttons.
+			2.) To send in a dit, tap button one quickly. To send in a dah, hold down button one
+			    for about a second and release it.
+			3.) To signal the end of a dit-dah string, tap button two. To signal the end of a word,
+			    hold down button two for 1 second. To signal the end of translation, hold down button two
+			    for 2 seconds or more.
+			4.) After signaling the end of translation, the translated text will be outputted to the terminal.
+	Testing kernelFromMorse:
+			1.) cat in a file that consists of just '-' without the quotes. This will begin the test.
+
+	Interacting with the user space programs:
+		For userToMorse:
+			1.) When executing the binary file from gcc, pass in whatever words you want translated
+			    to Morse as command line arguments. This will immediately start the translation
+			    into Morse.
+		For twoButtons:
+			1.) Execute the binary file from gcc to start the interaction. At this point, the program
+			    is awaiting input from the buttons.
+			2.) To send in a dit, tap button one quickly. To send in a dah, hold down button one
+			    for about a second and release it.
+			3.) To signal the end of a dit-dah string, tap button two. To signal the end of a word,
+			    hold down button two for 1 second. To signal the end of translation, hold down button two
+			    for 2 seconds or more.
+			4.) After signaling the end of translation, the translated text will be outputted to the terminal.
+	Testing twoButtons:
+			1.) When executing the binary file, pass in any command line argument to initiate the test.
+
+			
